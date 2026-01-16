@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>المطوّر الأعلى | MUDANO</title>
+
+  <!-- عرض ثابت بحال PC -->
+  <meta name="viewport" content="width=1200">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@600;900&display=swap');
+
+:root{
+  --gray-glass: rgba(180,180,180,0.15);
+  --blue: #7cc8ff;
+  --gold: #d4af37;
+  --border: rgba(255,255,255,0.15);
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Cairo', sans-serif;
+}
+
+html{
+  min-width:1200px;
+}
+
+body{
+  background:
+    radial-gradient(circle at top, #0f2b4f, #050914 70%),
+    url("https://www.transparenttextures.com/patterns/stardust.png");
+  color:#e6f4ff;
+  overflow-x:auto;
+}
+
+/* ===== CINEMATIC ===== */
+#cinematic{
+  position:fixed;
+  inset:0;
+  background:radial-gradient(circle, #001d3d, #000814);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
+  animation:cinematicOut 2.5s ease forwards;
+  animation-delay:2.5s;
+}
+
+#cinematic h1{
+  font-size:60px;
+  color:var(--blue);
+  letter-spacing:6px;
+  text-shadow:0 0 30px var(--blue);
+}
+
+#cinematic p{
+  margin-top:15px;
+  opacity:.8;
+}
+
+@keyframes cinematicOut{
+  to{opacity:0;visibility:hidden;}
+}
+
+/* ===== BACKGROUND ===== */
+.bg-image{
+  position:fixed;
+  inset:0;
+  background:url("Toji.jfif") center/cover no-repeat;
+  filter:blur(2px) brightness(.6);
+  z-index:-2;
+}
+
+.bg-overlay{
+  position:fixed;
+  inset:0;
+  background:linear-gradient(to bottom, rgba(80,80,80,.5), #050914);
+  z-index:-1;
+}
+
+/* ===== MAIN ===== */
+.developer{
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  opacity:0;
+  animation:fadeIn 1.5s ease forwards;
+  animation-delay:3s;
+}
+
+@keyframes fadeIn{
+  to{opacity:1;}
+}
+
+.title{
+  font-size:36px;
+  margin-bottom:30px;
+  color:var(--blue);
+  text-shadow:0 0 20px rgba(120,200,255,.6);
+}
+
+/* ===== CARD ===== */
+.dev-card{
+  width:420px;
+  padding:35px;
+  text-align:center;
+  border-radius:22px;
+  background:var(--gray-glass);
+  backdrop-filter:blur(12px);
+  border:1px solid var(--border);
+  box-shadow:0 0 40px rgba(120,200,255,.35);
+}
+
+.dev-name{
+  font-size:22px;
+  color:var(--gold);
+  text-shadow:0 0 10px rgba(212,175,55,.6);
+}
+
+.dev-role{
+  margin:10px 0 20px;
+  opacity:.85;
+}
+
+.dev-info{
+  list-style:none;
+  margin-bottom:20px;
+}
+
+.dev-info li{
+  margin:6px 0;
+}
+
+/* ===== CONTACT ===== */
+.contact{
+  margin:20px 0;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.contact-link{
+  text-decoration:none;
+  color:#cfe9ff;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:10px;
+  transition:.3s;
+}
+
+.contact-link i{
+  color:var(--blue);
+}
+
+.contact-link:hover{
+  transform:scale(1.1);
+}
+
+/* ===== BUTTON ===== */
+button{
+  margin-top:15px;
+  padding:12px 28px;
+  border:none;
+  border-radius:14px;
+  cursor:pointer;
+  color:#000;
+  font-weight:bold;
+  background:linear-gradient(135deg,#d4af37,#f1d27a);
+}
+
+/* ===== BACK ===== */
+.back{
+  display:inline-block;
+  margin-top:40px;
+  padding:10px 30px;
+  border-radius:30px;
+  border:1px solid var(--blue);
+  color:var(--blue);
+  text-decoration:none;
+  transition:.3s;
+  background:rgba(120,200,255,.05);
+}
+
+.back:hover{
+  background:var(--blue);
+  color:#000;
+}
+
+/* ===== BADGE ===== */
+.developer-badge{
+  position:fixed;
+  bottom:20px;
+  left:20px;
+  background:var(--gray-glass);
+  backdrop-filter:blur(10px);
+  border:1px solid var(--border);
+  padding:8px 15px;
+  border-radius:12px;
+  display:flex;
+  gap:10px;
+  align-items:center;
+  z-index:999;
+}
+
+.developer-badge .text{
+  font-size:11px;
+  letter-spacing:1.5px;
+}
+
+.developer-badge .code-icon{
+  color:var(--blue);
+  font-family:monospace;
+}
+.developer-badge {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            /* يمكنك تغييرها إلى right إذا أردت */
+            background: rgba(15, 23, 42, 0.6);
+            /* زجاجي داكن */
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 242, 254, 0.2);
+            padding: 8px 15px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 9999;
+            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .developer-badge:hover {
+            transform: translateY(-5px) scale(1.05);
+            border-color: #00f2fe;
+            box-shadow: 0 5px 15px rgba(0, 242, 254, 0.2);
+            background: rgba(15, 23, 42, 0.9);
+        }
+
+        .developer-badge .text {
+            font-family: 'Cinzel', serif;
+            /* أو أي خط تفضله */
+            font-size: 11px;
+            color: #fff;
+            letter-spacing: 1.5px;
+            font-weight: bold;
+        }
+
+        .developer-badge .code-icon {
+            color: #00f2fe;
+            font-weight: 900;
+            font-family: monospace;
+            font-size: 14px;
+            animation: blink 2s infinite;
+        }
+  </style>
+</head>
+
+<body>
+
+<div id="cinematic">
+  <h1>MUDANO</h1>
+  <p>⚜️ النظام يولد… ⚙️ المطوّر يحكم</p>
+</div>
+
+<div class="bg-image"></div>
+<div class="bg-overlay"></div>
+
+<section class="developer">
+
+  <h1 class="title">⚜️ المطوّر الأعلى للإقليم ⚜️</h1>
+
+  <div class="dev-card">
+    <h2 class="dev-name">👑 𝑲𝒂𝒊𝒓𝒐 – 𝑻𝒐𝒋𝒊 ⛧</h2>
+    <p class="dev-role">مشرف & مطوّر نظام نيفيريا</p>
+
+    <ul class="dev-info">
+      <li>⚙️ هندسة الأنظمة</li>
+      <li>🛡️ تدريب المشرفين</li>
+      <li>🔥 بناء العوالم الإدارية</li>
+      <li>👁️ مراقبة التوازن</li>
+    </ul>
+
+    <div class="contact">
+      <a href="https://wa.me/212693864590" target="_blank" class="contact-link">
+        <i class="fa-brands fa-whatsapp"></i>
+        <span>+212 693864590</span>
+      </a>
+
+      <a href="https://www.instagram.com/mohammede_elmorsli" target="_blank" class="contact-link">
+        <i class="fa-brands fa-instagram"></i>
+        <span>Mohamed</span>
+      </a>
+    </div>
+
+    <button onclick="showPower()">كشف الهيبة</button>
+    <p id="power"></p>
+  </div>
+
+  <a href="index.html" class="back">⬅ الرجوع للمملكة</a>
+
+</section>
+
+<a href="#" class="developer-badge">
+  <span class="text">𝑲𝒂𝒊𝒓𝒐 – 𝑻𝒐𝒋𝒊 ⛧</span>
+  <span class="code-icon">&lt;/&gt;</span>
+</a>
+
+<script>
+function showPower(){
+  const powers=[
+    "👑 العقل المدبر لنيفيريا",
+    "🔥 مطور النظام الأعلى",
+    "⚙️ سيد الأكواد",
+    "🛡️ حارس التوازن"
+  ];
+  document.getElementById("power").innerText=
+    powers[Math.floor(Math.random()*powers.length)];
+}
+</script>
+
+</body>
+</html>

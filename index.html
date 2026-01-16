@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إقليم مودانو</title>
+
+    <style>
+        :root {
+            --gold: #d4af37;
+            --mythic: #c0392b;
+            --primary: #bfc7d5; /* فضي بارد */
+            --glass: rgba(255, 255, 255, 0.05);
+            --border: rgba(255, 255, 255, 0.12);
+            --bg-main: #2b2f36;   /* رمادي رصاصي */
+            --bg-dark: #1f2329;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(180deg, var(--bg-main), var(--bg-dark));
+            color: #eee;
+            min-height: 100vh;
+            overflow-x: hidden;
+              padding-top: 80px;
+        }
+
+        /* خلفية ثابتة هادئة */
+        .universe-bg {
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(circle at 20% 20%, rgba(255,255,255,0.04), transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(255,255,255,0.03), transparent 40%);
+            z-index: -1;
+        }
+
+        /* NAV */
+        .nav-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 999;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 6%;
+
+    background: rgba(180, 180, 180, 0.15); /* رمادي خفيف */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+
+        .epic-menu {
+            display: flex;
+            gap: 20px;
+        }
+
+        .menu-item {
+            color: #ddd;
+            text-decoration: none;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .menu-item:hover {
+            color: var(--gold);
+        }
+
+        /* HERO */
+        .hero {
+            height: 55vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background:
+                linear-gradient(rgba(40,45,52,0.75), rgba(20,22,26,0.95)),
+                url('https://images.unsplash.com/photo-1514539079130-25950c84af65?q=80&w=2000')
+                center/cover;
+        }
+
+        .hero h1 {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(2.5rem, 8vw, 4.2rem);
+            text-shadow: 0 0 25px rgba(255,255,255,0.15);
+        }
+
+        /* GRID */
+        .legends-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 50px 6%;
+        }
+
+        /* CARD */
+        .legend-card {
+            position: relative;
+            height: 450px;
+            border-radius: 22px;
+            overflow: hidden;
+            background: var(--glass);
+            border: 1px solid var(--border);
+            transition: 0.5s ease;
+        }
+
+        .legend-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .card-bg-img {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            filter: brightness(0.45) blur(2px);
+            transition: 0.6s;
+        }
+
+        .legend-card:hover .card-bg-img {
+            filter: brightness(0.65) blur(0);
+        }
+
+        .card-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, transparent 20%, rgba(0,0,0,0.9) 90%);
+        }
+
+        .corner-rank {
+            position: absolute;
+            top: 18px;
+            right: 18px;
+            font-size: 12px;
+            padding: 5px 14px;
+            border-radius: 50px;
+            border: 1px solid var(--gold);
+            background: rgba(0,0,0,0.55);
+            z-index: 2;
+        }
+
+        .card-content {
+            position: relative;
+            z-index: 2;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 25px;
+            text-align: right;
+        }
+
+        .role {
+            font-size: 12px;
+            letter-spacing: 2px;
+            color: var(--gold);
+            margin-bottom: 10px;
+        }
+
+        .name {
+            font-size: 2rem;
+            font-weight: 900;
+            margin-bottom: 10px;
+        }
+
+        .tags {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .tag {
+            font-size: 10px;
+            padding: 4px 12px;
+            border-radius: 6px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid var(--border);
+        }
+
+        .achievements-list {
+            font-size: 12px;
+            color: #ccc;
+            line-height: 1.7;
+            margin-bottom: 15px;
+            max-height: 120px;
+            overflow-y: auto;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: 0.4s;
+        }
+
+        .legend-card:hover .achievements-list {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .like-btn {
+            background: rgba(255,255,255,0.12);
+            border: none;
+            color: #fff;
+            padding: 10px 18px;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            gap: 10px;
+            width: fit-content;
+            transition: 0.3s;
+        }
+
+        .like-btn:hover,
+        .like-btn.active {
+            background: #c0392b;
+        }
+
+        /* ===== FOOTER ===== */
+.footer {
+    background: rgba(180, 180, 180, 0.12);
+    backdrop-filter: blur(12px);
+    border-top: 1px solid var(--border);
+    padding: 40px 6% 25px;
+    margin-top: 80px;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 30px;
+    align-items: start;
+}
+
+.footer h3 {
+    font-size: 16px;
+    margin-bottom: 12px;
+    color: var(--gold);
+    letter-spacing: 1px;
+}
+
+.footer p,
+.footer a {
+    font-size: 13px;
+    color: #ccc;
+    line-height: 1.8;
+    text-decoration: none;
+}
+
+.footer a:hover {
+    color: var(--gold);
+}
+
+.footer-bottom {
+    text-align: center;
+    margin-top: 30px;
+    padding-top: 15px;
+    font-size: 12px;
+    color: #aaa;
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+
+.developer-badge {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            /* يمكنك تغييرها إلى right إذا أردت */
+            background: rgba(15, 23, 42, 0.6);
+            /* زجاجي داكن */
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 242, 254, 0.2);
+            padding: 8px 15px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 9999;
+            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .developer-badge:hover {
+            transform: translateY(-5px) scale(1.05);
+            border-color: #00f2fe;
+            box-shadow: 0 5px 15px rgba(0, 242, 254, 0.2);
+            background: rgba(15, 23, 42, 0.9);
+        }
+
+        .developer-badge .text {
+            font-family: 'Cinzel', serif;
+            /* أو أي خط تفضله */
+            font-size: 11px;
+            color: #fff;
+            letter-spacing: 1.5px;
+            font-weight: bold;
+        }
+
+        .developer-badge .code-icon {
+            color: #00f2fe;
+            font-weight: 900;
+            font-family: monospace;
+            font-size: 14px;
+            animation: blink 2s infinite;
+        }
+    </style>
+</head>
+
+<body>
+<div class="universe-bg"></div>
+
+<nav class="nav-container">
+    <div style="font-weight:900; color:var(--primary)">MUDANO 🪽</div>
+    <div class="epic-menu">
+        <a href="#rotab" class="menu-item">الرتب العليا</a>
+        <a href="#do9" class="menu-item">الدوقات</a>
+        <a href="./na9aba.html" class="menu-item">النقابات</a>
+        <a href="developer.html" class="menu-item">المطوّر الأعلى</a>
+    </div>
+</nav>
+
+<header class="hero">
+    <h1>إقليم مودانو</h1>
+    <p style="opacity:0.7; letter-spacing:2px">WELCOME TO MUDANO</p>
+</header>
+
+    
+<section class="legends-grid" id="rotab">
+    
+ <h2 style="font-size: 2rem; border-right: 5px solid var(--gold); padding-right: 15px; display: inline-block; text-align: center;">
+            الرتب العليا</h2>
+     <article class="legend-card">
+        <div class="card-bg-img" style="background-image:url('./akard.jfif')"></div>
+        <div class="card-overlay"></div>
+        <div class="corner-rank">LEGEND</div>
+
+        <div class="card-content">
+            <span class="role"> ملك</span>
+            <h2 class="name">اكارد</h2>
+
+            <div class="tags">
+                <span class="tag">ذكي </span>
+                <span class="tag">خبير </span>
+            </div>
+
+            <div class="achievements-list">
+               اكارد الملك يعد من اهم الأشخاص وشخص قوي جدا اداريا لقد أصبح الملك بعد اعتزال غيتو ويعد الملك الاول في اريفانيا وهو من اقوى ملوك المملكة شخص ذات خبرة قوية لا يربط الصداقة والنقابات ويعد من الأشخاص الذين ساهموا في نهوض الإقليم و مملكة اريفانيا
+            </div>
+
+            <button class="like-btn" onclick="toggleLike(this,'guts')">
+                ❤️ <span class="count">0</span>
+            </button>
+        </div>
+    </article>
+
+     <article class="legend-card">
+        <div class="card-bg-img" style="background-image:url('./asta.jfif')"></div>
+        <div class="card-overlay"></div>
+        <div class="corner-rank">LEGEND</div>
+
+        <div class="card-content">
+            <span class="role"> نائب ملك</span>
+            <h2 class="name">استا</h2>
+
+            <div class="tags">
+                <span class="tag">خبير  </span>
+                <span class="tag">قوي</span>
+            </div>
+
+            <div class="achievements-list">
+                استا نائب الملك والشخص الاول والمسؤول عن الإقليم في حال غياب الملك شخص ذو خبرة كسب خبراته عن طريق الامبراطور شادو ويعد من تلاميذه الأقوياء ويعد من الأشخاص الذين ساهموا في نهوض مملكة اريفانيا
+            </div>
+
+            <button class="like-btn" onclick="toggleLike(this,'guts')">
+                ❤️ <span class="count">0</span>
+            </button>
+        </div>
+    </article>
+
+     <article class="legend-card">
+        <div class="card-bg-img" style="background-image:url('./erin.jfif')"></div>
+        <div class="card-overlay"></div>
+        <div class="corner-rank">LEGEND</div>
+
+        <div class="card-content">
+            <span class="role"> نائب ملك</span>
+            <h2 class="name">ايرين</h2>
+
+            <div class="tags">
+                <span class="tag">  حصان اسود</span>
+                <span class="tag">كئيب </span>
+            </div>
+
+            <div class="achievements-list">
+               ايرين نائب الملك ويعد من اهم الأشخاص في الإقليم إدارته جيدة وشخص جيد وحكيم وقراراته دائما في محلها
+            </div>
+
+            <button class="like-btn" onclick="toggleLike(this,'guts')">
+                ❤️ <span class="count">0</span>
+            </button>
+        </div>
+    </article>
+
+     <article class="legend-card">
+        <div class="card-bg-img" style="background-image:url('./inil.jfif')"></div>
+        <div class="card-overlay"></div>
+        <div class="corner-rank">LEGEND</div>
+
+        <div class="card-content">
+            <span class="role"> مستشار ملك</span>
+            <h2 class="name">اينيل</h2>
+
+            <div class="tags">
+                <span class="tag">قوي </span>
+                <span class="tag">حكيم </span>
+            </div>
+
+            <div class="achievements-list">
+               اينيل مستشار الملك شخص ذو خبرة لقد كان معتزلا بعد تفكك مملكة ماستر لكن الآن عاد من جديد ليحطم الساحة ويصنع طريق المجد مجددا
+            </div>
+
+            <button class="like-btn" onclick="toggleLike(this,'guts')">
+                ❤️ <span class="count">0</span>
+            </button>
+        </div>
+    </article>
+
+     <article class="legend-card">
+        <div class="card-bg-img" style="background-image:url('./binlobi.jfif')"></div>
+        <div class="card-overlay"></div>
+        <div class="corner-rank">LEGEND</div>
+
+        <div class="card-content">
+            <span class="role"> وزير</span>
+            <h2 class="name">بينلوبي</h2>
+
+            <div class="tags">
+                <span class="tag">قوية </span>
+                <span class="tag">خبيرة </span>
+            </div>
+
+            <div class="achievements-list">
+                المسؤولة عن البنوك في الإقليم ومسؤولة حسب تفاعل ونشر 
+خبرة ولقد تم احضارها من ماستر خصيصا للاقليم
+            </div>
+
+            <button class="like-btn" onclick="toggleLike(this,'guts')">
+                ❤️ <span class="count">0</span>
+            </button>
+        </div>
+    </article>
+
+     <article class="legend-card">
+        <div class="card-bg-img" style="background-image:url('./sako.jfif')"></div>
+        <div class="card-overlay"></div>
+        <div class="corner-rank">LEGEND</div>
+
+        <div class="card-content">
+            <span class="role"> وزير</span>
+            <h2 class="name">ساكو</h2>
+
+            <div class="tags">
+                <span class="tag">لطيف </span>
+                <span class="tag">مز </span>
+            </div>
+
+            <div class="achievements-list">
+                ساكو وزير الفروع الذي ينوب اكاشي كذلك مسؤول عن جميع الفروع واستقرارها
+            </div>
+
+            <button class="like-btn" onclick="toggleLike(this,'guts')">
+                ❤️ <span class="count">0</span>
+            </button>
+        </div>
+    </article>
+
+     <article class="legend-card">
+        <div class="card-bg-img" style="background-image:url('./akachi.jfif')"></div>
+        <div class="card-overlay"></div>
+        <div class="corner-rank">LEGEND</div>
+
+        <div class="card-content">
+            <span class="role"> وزير</span>
+            <h2 class="name">اكاشي</h2>
+
+            <div class="tags">
+                <span class="tag">خبير  </span>
+                <span class="tag">ذكي</span>
+            </div>
+
+            <div class="achievements-list">
+                اكاشي وزير الفروع والمسؤول عن جميع الفروع واستقرارهم
+
+            <button class="like-btn" onclick="toggleLike(this,'guts')">
+                ❤️ <span class="count">0</span>
+            </button>
+        </div>
+    </article>
+
+    <h2 style="font-size: 2rem; border-right: 5px solid var(--gold); padding-right: 15px; display: inline-block; text-align: center;" id="do9">
+             الدوقات</h2>
+
+            <article class="legend-card">
+        <div class="card-bg-img" style="background-image:url('./nami.jfif')"></div>
+        <div class="card-overlay"></div>
+        <div class="corner-rank">LEGEND</div>
+
+        <div class="card-content">
+            <span class="role">  دوقة</span>
+            <h2 class="name">نامي</h2>
+
+            <div class="tags">
+                <span class="tag">خبيرة </span>
+                <span class="tag">خبيرة</span>
+            </div>
+
+            <div class="achievements-list">
+نامي دوقة سينا وكاتسورا تعد من الأشخاص ذات الخبرة وتتخذ قراراتها بتفكير جيد وكل شي محسوب وتعد من الشخصيات الفعالة في الاقليم
+            <button class="like-btn" onclick="toggleLike(this,'guts')">
+                ❤️ <span class="count">0</span>
+            </button>
+        </div>
+    </article>
+
+    <article class="legend-card">
+        <div class="card-bg-img" style="background-image:url('./kilwa.jfif')"></div>
+        <div class="card-overlay"></div>
+        <div class="corner-rank">LEGEND</div>
+
+        <div class="card-content">
+            <span class="role"> نائب دوقة</span>
+            <h2 class="name">كيلوا</h2>
+
+            <div class="tags">
+                <span class="tag">ذكي </span>
+                <span class="tag">قوي </span>
+            </div>
+
+            <div class="achievements-list">
+كيلوا نائب الدوقة نامي يعد من الأشخاص ذات الخبرة الجيدة ومن افضل ناشرين الإقليم ويعد شخص قوي وخبير وادارته جيدة
+            <button class="like-btn" onclick="toggleLike(this,'guts')">
+                ❤️ <span class="count">0</span>
+            </button>
+        </div>
+    </article>
+</section>
+
+<a href="#" class="developer-badge">
+  <span class="text">𝑲𝒂𝒊𝒓𝒐 – 𝑻𝒐𝒋𝒊 ⛧</span>
+  <span class="code-icon">&lt;/&gt;</span>
+</a>
+
+<footer class="footer">
+    <div class="footer-content">
+
+        <div>
+            <h3>إقليم مودانو</h3>
+            <p>
+                إقليم أسطوري يجمع بين القوة، الحكمة، والتنظيم.
+                بُني على الولاء، الإدارة، وصناعة المجد.
+            </p>
+        </div>
+
+        <div>
+            <h3>التنقّل</h3>
+            <a href="#rotab">الرتب العليا</a><br>
+            <a href="#do9">الدوقات</a><br>
+            <a href="./na9aba.html">النقابات</a><br>
+            <a href="developer.html">المطوّر الأعلى</a>
+        </div>
+
+        <div>
+            <h3>الحالة</h3>
+            <p>🛡️ الإقليم: مستقر</p>
+            <p>⚔️ القوة: مرتفعة</p>
+            <p>📜 القوانين: مُفعّلة</p>
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+        © 2026 — MUDANO | All Rights Reserved
+    </div>
+</footer>
+
+
+<script>
+function toggleLike(btn, id) {
+    let likes = JSON.parse(localStorage.getItem('legend_likes') || '{}');
+    likes[id] = (likes[id] || 0) + 1;
+    localStorage.setItem('legend_likes', JSON.stringify(likes));
+    btn.querySelector('.count').innerText = likes[id];
+    btn.classList.add('active');
+}
+</script>
+
+</body>
+</html>

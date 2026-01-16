@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>نقابات مودانو</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@600;900&display=swap');
+
+:root{
+    --gold:#d4af37;
+    --glass:rgba(255,255,255,0.06);
+    --border:rgba(255,255,255,0.15);
+    --bg-main:#2b2f36;
+    --bg-dark:#1f2329;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Cairo',sans-serif;
+    background:linear-gradient(180deg,var(--bg-main),var(--bg-dark));
+    color:#eee;
+    min-height:100vh;
+    padding-top:80px;
+}
+
+/* ===== NAV ===== */
+.nav-container{
+    position:fixed;
+    top:0; left:0;
+    width:100%;
+    z-index:999;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:16px 6%;
+
+    background:rgba(180,180,180,0.15);
+    backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--border);
+}
+
+.menu-item{
+    color:#eee;
+    text-decoration:none;
+    font-weight:bold;
+    transition:0.3s;
+}
+.menu-item:hover{
+    color:var(--gold);
+}
+
+/* ===== TITLE ===== */
+.main-title{
+    text-align:center;
+    margin:60px auto 40px;
+    font-size:32px;
+    color:#ddd;
+    border-right:5px solid var(--gold);
+    padding-right:15px;
+    width:fit-content;
+}
+
+/* ===== GRID ===== */
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:30px;
+    padding:0 6% 80px;
+}
+
+/* ===== CARD ===== */
+.card{
+    position:relative;
+    height:260px;
+    border-radius:22px;
+    overflow:hidden;
+
+    background:
+      linear-gradient(to bottom,rgba(0,0,0,0.25),rgba(0,0,0,0.85)),
+      var(--bg) center/cover no-repeat;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+
+    border:1px solid var(--border);
+    box-shadow:0 20px 40px rgba(0,0,0,0.6);
+    transition:0.5s ease;
+}
+
+.card:hover{
+    transform:translateY(-10px);
+    box-shadow:0 0 40px rgba(255,215,0,0.35);
+}
+
+/* ===== ADMIRAL LABEL ===== */
+.rank{
+    position:absolute;
+    top:18px;
+    right:18px;
+
+    font-size:11px;
+    letter-spacing:2px;
+    padding:6px 14px;
+
+    color:var(--gold);
+    border:1px solid var(--gold);
+    border-radius:20px;
+
+    background:rgba(0,0,0,0.55);
+    backdrop-filter:blur(6px);
+    z-index:2;
+}
+
+/* ===== TEXT ===== */
+.card h3{
+    font-size:26px;
+    margin-bottom:10px;
+}
+
+.icon{
+    font-size:28px;
+}
+
+/* ===== SPECIAL ===== */
+.mother{
+    border:2px solid var(--gold);
+    box-shadow:0 0 50px rgba(255,215,0,0.6);
+}
+
+.developer-badge {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            /* يمكنك تغييرها إلى right إذا أردت */
+            background: rgba(15, 23, 42, 0.6);
+            /* زجاجي داكن */
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 242, 254, 0.2);
+            padding: 8px 15px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 9999;
+            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .developer-badge:hover {
+            transform: translateY(-5px) scale(1.05);
+            border-color: #00f2fe;
+            box-shadow: 0 5px 15px rgba(0, 242, 254, 0.2);
+            background: rgba(15, 23, 42, 0.9);
+        }
+
+        .developer-badge .text {
+            font-family: 'Cinzel', serif;
+            /* أو أي خط تفضله */
+            font-size: 11px;
+            color: #fff;
+            letter-spacing: 1.5px;
+            font-weight: bold;
+        }
+
+        .developer-badge .code-icon {
+            color: #00f2fe;
+            font-weight: 900;
+            font-family: monospace;
+            font-size: 14px;
+            animation: blink 2s infinite;
+        }
+</style>
+</head>
+
+<body>
+
+<nav class="nav-container">
+    <div style="font-weight:900;">MUDANO 🪽</div>
+    <a href="./index.html" class="menu-item">رجوع إلى المملكة</a>
+</nav>
+
+<h2 class="main-title">نقابات مودانو</h2>
+
+<div class="cards">
+
+<div class="card" style="--bg:url('./aris.jfif')">
+    <span class="rank">اريسو </span>
+    <h3>وولف</h3>
+    <span class="icon">🐺</span>
+</div>
+
+<div class="card" style="--bg:url('./madara.jfif')">
+    <span class="rank">مادارا</span>
+    <h3>سينا</h3>
+    <span class="icon">❄️</span>
+</div>
+
+<div class="card" style="--bg:url('./sobaro.jfif')">
+    <span class="rank">سوبارو </span>
+    <h3>ماستر</h3>
+    <span class="icon">🌟</span>
+</div>
+
+<div class="card" style="--bg:url('./konan.jfif')">
+    <span class="rank">كونان</span>
+    <h3>يون</h3>
+    <span class="icon">🎴</span>
+</div>
+
+<div class="card" style="--bg:url('./erin.jfif')">
+    <span class="rank">ايرين </span>
+    <h3>قوتاي</h3>
+    <span class="icon">⚜️</span>
+</div>
+
+<div class="card" style="--bg:url('./akard.jfif')">
+    <span class="rank">شاغر</span>
+    <h3>كاتسورا</h3>
+    <span class="icon">🗡️</span>
+</div>
+
+<div class="card mother" style="--bg:url('./akard.jfif')">
+    <span class="rank">شاغر</span>
+    <h3>زيوس</h3>
+    <span class="icon">🌩️</span>
+</div>
+
+<div class="card mother" style="--bg:url('./akard.jfif')">
+    <span class="rank">شاغر</span>
+    <h3>إينرا</h3>
+    <span class="icon">👑</span>
+</div>
+
+</div>
+<a href="#" class="developer-badge">
+  <span class="text">𝑲𝒂𝒊𝒓𝒐 – 𝑻𝒐𝒋𝒊 ⛧</span>
+  <span class="code-icon">&lt;/&gt;</span>
+</a>
+
+</body>
+</html>
